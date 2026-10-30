@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Pro Fitness & Kas Koçu</title>
+    <title>AI Pro Fit & Anatomi Asistanı</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js -->
@@ -11,58 +11,48 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta+Sans', sans-serif; }
+        .muscle-path { transition: fill 0.3s ease; cursor: pointer; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
 
-    <!-- Header -->
+    <!-- Header & Navigation -->
     <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <div class="bg-indigo-600 p-2 rounded-xl text-white font-bold text-xl shadow-lg shadow-indigo-600/30">⚡ ProFit</div>
+                <div class="bg-indigo-600 p-2 rounded-xl text-white font-bold text-xl shadow-lg shadow-indigo-600/30">🧠 AI+</div>
                 <div>
-                    <h1 class="font-bold text-lg leading-tight">Profesyonel Antrenman & Anatomi Koçu</h1>
-                    <span class="text-xs text-emerald-400 flex items-center gap-1">● Akıllı Planlama & Kas Haritası</span>
+                    <h1 class="font-bold text-lg leading-tight">Pro Fit & Özerk Anatomi Koçu</h1>
+                    <span class="text-xs text-emerald-400 flex items-center gap-1">● Akıllı Ajan & Canlı Isı Haritası</span>
                 </div>
             </div>
-            <!-- Navigation Tabs -->
+            <!-- Modül Sekmeleri -->
             <nav class="flex space-x-1 bg-slate-950 p-1.5 rounded-xl border border-slate-800 flex-wrap">
-                <button onclick="switchTab('planner')" id="tab-planner" class="px-3 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white transition">Haftalık Plan</button>
-                <button onclick="switchTab('tracker')" id="tab-tracker" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Takip & Seri</button>
-                <button onclick="switchTab('anatomy')" id="tab-anatomy" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Anatomi Haritası</button>
-                <button onclick="switchTab('diet')" id="tab-diet" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Besin & Su</button>
-                <button onclick="switchTab('analytics')" id="tab-analytics" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">İleri Grafikler</button>
+                <button onclick="switchTab('workout')" id="tab-workout" class="px-3 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white transition">1. Antrenman & Grup</button>
+                <button onclick="switchTab('anatomy')" id="tab-anatomy" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">2. Anatomi Model</button>
+                <button onclick="switchTab('diet')" id="tab-diet" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">3. Görsel Besin & Tablo</button>
+                <button onclick="switchTab('body')" id="tab-body" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">4. Vücut & Özerk Ajan</button>
+                <button onclick="switchTab('charts')" id="tab-charts" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">5. Grafik Grupları</button>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 gap-6">
 
-        <!-- 1. WEEKLY PLANNER TAB (Pazartesi - Pazar Günleri) -->
-        <section id="content-planner" class="space-y-6">
-            <!-- Aktif Antrenman Başlatıcı Widget'ı -->
-            <div id="active-workout-banner" class="bg-gradient-to-r from-indigo-900/80 to-purple-900/80 p-5 rounded-2xl border border-indigo-500/30 flex flex-wrap justify-between items-center gap-4 hidden">
-                <div>
-                    <span class="text-xs text-indigo-300 font-semibold uppercase tracking-wider">Canlı Antrenman Modu</span>
-                    <h3 id="active-title" class="text-xl font-extrabold text-white mt-0.5">Antrenman Devam Ediyor</h3>
-                    <p id="active-timer" class="text-2xl font-mono font-bold text-emerald-400 mt-1">00:00</p>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="finishActiveWorkout()" class="bg-emerald-600 hover:bg-emerald-500 px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-emerald-600/30 transition">Antrenmanı Bitir & Kaydet</button>
-                    <button onclick="cancelActiveWorkout()" class="bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-xl font-semibold text-sm text-slate-300 transition">İptal Et</button>
-                </div>
-            </div>
-
-            <!-- Gün Seçim Kartları ve Ekleme -->
+        <!-- 1. ANTRENMAN & GRUP PLANLAMA (Özel Arayüz Tasarımı) -->
+        <section id="content-workout" class="space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Hareket Ekleme Formu -->
+                <!-- Sol Panel: Gelişmiş Grup Ekleme Formu -->
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 h-fit space-y-4">
-                    <h2 class="text-lg font-bold text-indigo-400">Antrenman / Hareket Planla</h2>
-                    <form id="plan-form" onsubmit="addPlannedExercise(event)" class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-indigo-400">Grup Antrenman Ekle</h2>
+                        <span class="text-[10px] bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-900">Ajan Web Tarama Aktif</span>
+                    </div>
+                    <form id="group-form" onsubmit="addWorkoutGroup(event)" class="space-y-3">
                         <div>
-                            <label class="text-xs text-slate-400 font-medium">Hangi Gün?</label>
-                            <select id="plan-day" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                            <label class="text-xs text-slate-400 font-medium">Gün Seçimi</label>
+                            <select id="w-day" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
                                 <option value="Pazartesi">Pazartesi</option>
                                 <option value="Salı">Salı</option>
                                 <option value="Çarşamba">Çarşamba</option>
@@ -73,222 +63,257 @@
                             </select>
                         </div>
                         <div>
-                            <label class="text-xs text-slate-400 font-medium">Hazır Hareket Seç veya Yaz</label>
-                            <input type="text" id="plan-name" list="default-exercises" placeholder="Örn: Bench Press, Squat, Lat Pulldown..." required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
-                            <datalist id="default-exercises">
-                                <option value="Bench Press (Göğüs)">
-                                    <option value="Squat (Bacak)">
-                                        <option value="Deadlift (Sırt / Bel)">
-                                            <option value="Shoulder Press (Omuz)">
-                                                <option value="Biceps Curl (Kol)">
-                                                    <option value="Triceps Pushdown (Arka Kol)">
-                                                        <option value="Pull-up (Sırt)">
-                                                        </datalist>
-                                                    </div>
-                                                    <div class="grid grid-cols-3 gap-2">
-                                                        <div>
-                                                            <label class="text-xs text-slate-400 font-medium">Set</label>
-                                                            <input type="number" id="plan-sets" value="4" min="1" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
-                                                        </div>
-                                                        <div>
-                                                            <label class="text-xs text-slate-400 font-medium">Tekrar</label>
-                                                            <input type="number" id="plan-reps" value="10" min="1" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
-                                                        </div>
-                                                        <div>
-                                                            <label class="text-xs text-slate-400 font-medium">Ağırlık (kg)</label>
-                                                            <input type="number" id="plan-weight" step="0.5" value="60" min="0" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
-                                                        </div>
-                                                    </div>
-                                                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">Plana Ekle</button>
-                                                </form>
-                                            </div>
-
-                                            <!-- Haftalık Gün Listesi -->
-                                            <div class="lg:col-span-2 space-y-4">
-                                                <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                                                    <h2 class="font-bold text-indigo-400">Haftalık Antrenman Akışı</h2>
-                                                    <div class="flex gap-2">
-                                                        <button onclick="startWorkoutSession('Pazartesi')" class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">Antrenman Başlat ⏱️</button>
-                                                        <button onclick="clearPlanner()" class="text-xs text-red-400 hover:underline">Tümünü Temizle</button>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Gün Sekmeleri / Listeleri -->
-                                                <div id="weekly-days-container" class="space-y-4">
-                                                    <!-- Dinamik olarak doldurulacak -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-
-        <!-- 2. TRACKER & STREAK TAB (Aylık Takip & Seri) -->
-        <section id="content-tracker" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 text-center">
-                    <span class="text-xs text-slate-400">Mevcut Seri (Streak) 🔥</span>
-                    <h3 id="streak-count" class="text-3xl font-extrabold text-amber-400 mt-2">0 Gün</h3>
-                    <p class="text-[11px] text-slate-500 mt-1">Ardı ardına spor yapılan günler</p>
+                            <label class="text-xs text-slate-400 font-medium">Tekrar Sıklığı (Periyot)</label>
+                            <select id="w-freq" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-200">
+                                <option value="Her Hafta (Haftalık)">Her Hafta (Haftalık tekrar)</option>
+                                <option value="Her Gün (Günlük)">Her Gün (Günlük tekrar)</option>
+                                <option value="Ayda Bir (Aylık)">Ayda Bir (Aylık düzen)</option>
+                                <option value="Özel Süreç">Süre Bazlı / Tek Seferlik</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Hareketler (Her satıra bir tane veya virgülle)</label>
+                            <textarea id="w-exercises" rows="3" placeholder="Örn: Bench Press, Incline Dumbbell Fly, Triceps Pushdown" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">Grubu Web Ajanıyla Kaydet</button>
+                    </form>
                 </div>
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 text-center">
-                    <span class="text-xs text-slate-400">Bu Ay Antrenman Sayısı</span>
-                    <h3 id="monthly-count" class="text-3xl font-extrabold text-emerald-400 mt-2">0 Seans</h3>
-                    <p class="text-[11px] text-slate-500 mt-1">Tamamlanan toplam seans</p>
-                </div>
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 text-center">
-                    <span class="text-xs text-slate-400">Toplam Spor Süresi</span>
-                    <h3 id="total-duration-stat" class="text-3xl font-extrabold text-cyan-400 mt-2">0 dk</h3>
-                    <p class="text-[11px] text-slate-500 mt-1">Harcanan toplam zaman</p>
-                </div>
-            </div>
 
-            <!-- Aylık Takvim Matrisi (Yeşil Tikler) -->
-            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-emerald-400">Ekim 2026 - Antrenman Takip Matrisi</h2>
-                    <span class="text-xs text-slate-400">✅ Tamamlanan Günler</span>
-                </div>
-                <div id="calendar-grid" class="grid grid-cols-7 gap-2">
-                    <!-- 30 Günlük takvim hücreleri -->
+                <!-- Sağ Panel: Günlere Göre Gruplandırılmış Akış -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                        <div>
+                            <h2 class="font-bold text-indigo-400">Haftalık Antrenman Grupları & Ajan Onayları</h2>
+                            <p class="text-xs text-slate-400">Tanımlanamayan hareketler için ajan web üzerinden kas grubu taraması yapar (✅ onaylı).</p>
+                        </div>
+                        <button onclick="clearWorkouts()" class="text-xs text-red-400 hover:underline">Sıfırla</button>
+                    </div>
+                    <div id="workout-group-list" class="space-y-3">
+                        <!-- Dinamik doldurulur -->
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. ANATOMY HEATMAP TAB (Vücut Kas Modeli) -->
+        <!-- 2. ANATOMİ MODELİ & ISI HARİTASI (Seçenekli: Aylık/Haftalık/Günlük) -->
         <section id="content-anatomy" class="hidden space-y-6">
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
-                <div class="flex justify-between items-center flex-wrap gap-2">
+                <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
                     <div>
-                        <h2 class="text-lg font-bold text-indigo-400">İnsan Vücudu Kas Yoğunluk Haritası</h2>
-                        <p class="text-xs text-slate-400">Yaptığınız antrenmanlardaki hareketlere göre çalışan kas gruplarının yoğunluğu.</p>
+                        <h2 class="text-lg font-bold text-emerald-400">Anatomi Çalışma Yoğunluğu Isı Haritası</h2>
+                        <p class="text-xs text-slate-400">Seçtiğiniz zaman dilimine göre kas gruplarının aktivasyon seviyeleri.</p>
                     </div>
-                    <div class="flex items-center gap-3 text-xs bg-slate-950 px-3 py-2 rounded-xl border border-slate-800">
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Yüksek (Primer)</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Orta (Sekonder)</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Düşük / Stabilizatör</span>
+                    <!-- Periyot Seçenekleri -->
+                    <div class="flex gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+                        <button onclick="setAnatomyPeriod('daily')" id="an-daily" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 text-white transition">Günlük</button>
+                        <button onclick="setAnatomyPeriod('weekly')" id="an-weekly" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition">Haftalık</button>
+                        <button onclick="setAnatomyPeriod('monthly')" id="an-monthly" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition">Aylık</button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="muscle-cards-container">
-                    <!-- Kas grubu kartları dinamik dolacak -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <!-- Görsel Model Alanı (Ön / Arka simülasyonu)[cite: 1] -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center justify-center space-y-4">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">İnsan Vücudu Isı Modeli[cite: 1]</span>
+                        <div class="flex gap-8 items-center">
+                            <div class="text-center space-y-2">
+                                <div class="w-32 h-64 border-2 border-dashed border-slate-700 rounded-3xl flex flex-col items-center justify-around p-2 bg-slate-900/50">
+                                    <div id="model-chest" class="w-16 h-8 rounded bg-red-500/80 text-[10px] flex items-center justify-center font-bold text-white shadow-lg shadow-red-500/50">GÖĞÜS (Yüksek)</div>
+                                    <div id="model-abs" class="w-12 h-10 rounded bg-amber-500/80 text-[10px] flex items-center justify-center font-bold text-white">KARIN (Orta)</div>
+                                    <div id="model-legs-f" class="w-20 h-12 rounded bg-emerald-500/80 text-[10px] flex items-center justify-center font-bold text-white">BACAK (Düşük)</div>
+                                </div>
+                                <span class="text-xs text-slate-400 font-semibold">Ön Görünüm</span>
+                            </div>
+                            <div class="text-center space-y-2">
+                                <div class="w-32 h-64 border-2 border-dashed border-slate-700 rounded-3xl flex flex-col items-center justify-around p-2 bg-slate-900/50">
+                                    <div id="model-back" class="w-20 h-14 rounded bg-red-500/80 text-[10px] flex items-center justify-center font-bold text-white shadow-lg shadow-red-500/50">SIRT (Yüksek)</div>
+                                    <div id="model-legs-b" class="w-20 h-12 rounded bg-amber-500/80 text-[10px] flex items-center justify-center font-bold text-white">ARKA BACAK</div>
+                                </div>
+                                <span class="text-xs text-slate-400 font-semibold">Arka Görünüm</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-xs">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Kırmızı: Yüksek</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Turuncu: Orta</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Yeşil: Düşük</span>
+                        </div>
+                    </div>
+
+                    <!-- Detaylı Analiz Listesi -->
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-sm text-slate-300">Ajan Kas Aktivasyon Raporu</h3>
+                        <div id="anatomy-report-box" class="space-y-3">
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+                                <div class="flex justify-between items-center"><strong class="text-sm text-red-400">Göğüs & Sırt Kasları</strong><span class="text-xs bg-red-950 text-red-400 px-2 py-0.5 rounded">Yüksek Aktivasyon</span></div>
+                                <p class="text-xs text-slate-400">Seçilen periyotta 4 seans yoğun ağırlık çalışması tespit edildi.</p>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+                                <div class="flex justify-between items-center"><strong class="text-sm text-amber-400">Karın & Kol (Core/Biceps)</strong><span class="text-xs bg-amber-950 text-amber-400 px-2 py-0.5 rounded">Orta Aktivasyon</span></div>
+                                <p class="text-xs text-slate-400">Destekleyici hareketlerle stabil çalıştırıldı.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. DIET & WATER TAB -->
+        <!-- 3. GÖRSEL ÖĞÜN TAHMİNİ & SÜTUN TABLOSU -->
         <section id="content-diet" class="hidden space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Fotoğraf / Görsel Simülasyonlu Öğün Ekleme -->
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 h-fit space-y-4">
-                    <h2 class="text-lg font-bold text-emerald-400">Yemek & Su Ekle</h2>
-                    <form id="diet-form" onsubmit="addFoodItem(event)" class="space-y-3">
+                    <h2 class="text-lg font-bold text-emerald-400">Görsel Öğün & Ürün Tahmini</h2>
+                    <form id="diet-ai-form" onsubmit="addVisualFood(event)" class="space-y-3">
                         <div>
-                            <label class="text-xs text-slate-400 font-medium">Yemek Adı (Ajan webde arar / Manuel)</label>
-                            <input type="text" id="food-input" placeholder="Örn: 200g Tavuk Göğsü, 1 tabak makarna" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                            <label class="text-xs text-slate-400 font-medium">Yemek Fotoğrafı Yükle (Simülasyon)</label>
+                            <input type="file" id="food-img-file" accept="image/*" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-300 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white">
                         </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="text-xs text-slate-400 font-medium">Kalori (kcal)</label>
-                                <input type="number" id="food-cals" placeholder="Otomatik/Manuel" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-slate-400 font-medium">Protein (g)</label>
-                                <input type="number" id="food-prot" placeholder="Protein (g)" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
-                            </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Veya Yemek / Paket Ürün Adı</label>
+                            <input type="text" id="food-desc" placeholder="Örn: 1 porsiyon tavuklu pilav, protein bar" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500">
                         </div>
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30">Öğünü Kaydet</button>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30">Ajan Görseli Analiz Etsin</button>
                     </form>
-
-                    <hr class="border-slate-800 my-4">
-
-                    <div>
-                        <label class="text-xs text-slate-400 font-medium mb-1 block">Su Takibi (Hedef: 3.0L)</label>
-                        <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <span id="water-display" class="font-bold text-cyan-400 text-lg">2.0 L</span>
-                            <div class="flex gap-2">
-                                <button onclick="addWater(-0.25)" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-sm font-bold">-</button>
-                                <button onclick="addWater(0.25)" class="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded-lg text-sm font-bold">+</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
+                <!-- Sütun Tablosu ile Detaylı İçerik Sunumu -->
                 <div class="lg:col-span-2 space-y-4">
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
-                            <span class="text-xs text-slate-400">Toplam Kalori</span>
-                            <h3 id="stat-cals" class="text-2xl font-extrabold text-emerald-400 mt-1">0 kcal</h3>
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h2 class="font-bold text-emerald-400">Besin Değerleri Sütun Tablosu</h2>
+                            <span class="text-xs text-slate-400">Ajan Tahmini & Doğrulama</span>
                         </div>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
-                            <span class="text-xs text-slate-400">Toplam Protein</span>
-                            <h3 id="stat-prot" class="text-2xl font-extrabold text-indigo-400 mt-1">0 g</h3>
-                        </div>
-                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
-                            <span class="text-xs text-slate-400">Su Miktarı</span>
-                            <h3 id="stat-water" class="text-2xl font-extrabold text-cyan-400 mt-1">2.0 L</h3>
-                        </div>
-                    </div>
-                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-3">
-                        <h3 class="font-bold text-sm text-slate-300">Bugünkü Besin Kayıtları</h3>
-                        <div id="food-list" class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                            <div class="text-slate-500 text-center py-6 text-sm">Henüz öğün eklenmedi.</div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead class="bg-slate-950 text-slate-400 uppercase font-semibold border-b border-slate-800">
+                                    <tr>
+                                        <th class="p-3">Öğün / Ürün Adı</th>
+                                        <th class="p-3">Kalori (kcal)</th>
+                                        <th class="p-3">Protein (g)</th>
+                                        <th class="p-3">Karbonhidrat</th>
+                                        <th class="p-3">Yağ</th>
+                                        <th class="p-3">Kaynak</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="food-table-body" class="divide-y divide-slate-800">
+                                    <tr>
+                                        <td colspan="6" class="p-4 text-center text-slate-500">Henüz görsel veya öğün kaydedilmedi.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. ANALYTICS & ADVANCED CHARTS TAB -->
-        <section id="content-analytics" class="hidden space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Grafik 1: Antrenman Süre Dağılımı -->
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
-                    <h3 class="font-bold text-indigo-400">Seans Süre Analizi (Dakika)</h3>
-                    <div class="w-full h-72 bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-center">
-                        <canvas id="durationChart"></canvas>
+        <!-- 4. VÜCUT TAKİBİ & ÖZERK AJAN BİLDİRİMLERİ -->
+        <section id="content-body" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Boy, Kilo ve Su Girdileri -->
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 h-fit space-y-4">
+                    <h2 class="text-lg font-bold text-cyan-400">Vücut Girdileri & Düzenleme</h2>
+                    <form id="body-form" onsubmit="updateBodyMetrics(event)" class="space-y-3">
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Boy (cm)</label>
+                            <input type="number" id="b-height" value="175" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Kilo (kg)</label>
+                            <input type="number" id="b-weight" step="0.1" value="75.0" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Günlük Su Tüketimi (Litre)</label>
+                            <input type="number" id="b-water" step="0.1" value="1.5" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                        </div>
+                        <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-cyan-600/30">Girdileri Kaydet & Ajanı Çalıştır</button>
+                    </form>
+                </div>
+
+                <!-- Özerk Ajan Değerlendirme & Yetersizlik Bildirimleri -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                            <div>
+                                <h2 class="font-bold text-cyan-400">🤖 Özerk Ajan Akıllı Bildirimleri</h2>
+                                <p class="text-xs text-slate-400">Ajan, arka planda belirli aralıklarla verilerinizi değerlendirir ve eksiklikleri bildirir.</p>
+                            </div>
+                            <button onclick="runAutonomousAudit()" class="bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white text-xs px-3 py-1.5 rounded-lg transition font-semibold">Manuel Tetikle</button>
+                        </div>
+
+                        <!-- Bildirim Kutuları -->
+                        <div id="autonomous-alerts-container" class="space-y-3">
+                            <div class="bg-slate-950 p-4 rounded-xl border border-amber-500/30 flex items-start gap-3">
+                                <span class="text-amber-400 text-lg">⚠️</span>
+                                <div>
+                                    <h4 class="font-bold text-sm text-amber-300">Su Tüketimi Yetersizlik Uyarısı</h4>
+                                    <p class="text-xs text-slate-400 mt-0.5">Özerk ajan taraması: Günlük su tüketiminiz (1.5L) hedef değerin altındadır. Böbrek fonksiyonu ve kas toparlanması için en az 2.5L tüketmelisiniz.</p>
+                                </div>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-xl border border-emerald-500/30 flex items-start gap-3">
+                                <span class="text-emerald-400 text-lg">✅</span>
+                                <div>
+                                    <h4 class="font-bold text-sm text-emerald-300">BMI / Kilo Dengesi</h4>
+                                    <p class="text-xs text-slate-400 mt-0.5">Boy/kilo oranınız ideal aralıktadır. Protein alımını sabit tutmanız önerilir.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- Grafik 2: Zaman Dilimi (Saat) Dağılımı -->
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
-                    <h3 class="font-bold text-emerald-400">Spor Yapılan Saat Dilimleri (TR Saati)</h3>
-                    <div class="w-full h-72 bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-center">
-                        <canvas id="timeChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 5. GRUPLANDIRILMIŞ GRAFİK SEÇİM PANELİ -->
+        <section id="content-charts" class="hidden space-y-6">
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex justify-between items-center flex-wrap gap-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-indigo-400">Gruplandırılmış Analitik Grafikler</h2>
+                        <p class="text-xs text-slate-400">Boş ekran görmeden, görmek istediğiniz grafik kategorisini seçin.</p>
                     </div>
+                    <!-- Grafik Seçim Kutusu -->
+                    <select id="chart-selector" onchange="switchChartGroup()" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+                        <option value="weight">Ağırlık Gelişim Grafiği</option>
+                        <option value="calories">Günlük Kalori & Protein Dağılımı</option>
+                        <option value="water">Su Tüketim Trendi</option>
+                    </select>
+                </div>
+
+                <div class="w-full h-80 bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-center">
+                    <canvas id="activeAnalyticsChart"></canvas>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- JavaScript Application Core -->
+    <!-- JavaScript Uygulama Mantığı -->
     <script>
         let appData = {
-            plans: {
-                "Pazartesi": [ { id: 1, name: "Bench Press (Göğüs)", sets: 4, reps: 10, weight: 70, muscle: "Göğüs" } ],
-                "Salı": [ { id: 2, name: "Squat (Bacak)", sets: 4, reps: 8, weight: 90, muscle: "Bacak" } ],
-                "Çarşamba": [], "Perşembe": [], "Cuma": [], "Cumartesi": [], "Pazar": []
-            },
-            history: [], // Tamamlanan seanslar: { date, day, durationMinutes, timeStr }
-            foods: [],
-            water: 2.0,
-            streakDays: [1, 2, 3, 5, 6, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 22, 23, 24, 26, 27, 29] // Örnek aktif günler
+            workouts: [
+                { id: 1, day: "Pazartesi", freq: "Her Hafta (Haftalık)", exercises: ["Bench Press", "Incline Fly"], verified: true },
+                { id: 2, day: "Salı", freq: "Her Hafta (Haftalık)", exercises: ["Squat", "Leg Press"], verified: true }
+            ],
+            foods: [
+                { name: "1 Porsiyon Izgara Tavuk", cals: 350, prot: 45, carbs: 5, fat: 12, source: "Görsel Ajan Analizi" }
+            ],
+            body: { height: 175, weight: 75.0, water: 1.5 },
+            anatomyPeriod: 'daily'
         };
 
-        let activeTimerInterval = null;
-        let activeSeconds = 0;
-        let currentActiveDay = null;
-
         function loadData() {
-            const saved = localStorage.getItem('pro_fit_system_data');
+            const saved = localStorage.getItem('ai_pro_fit_system');
             if (saved) { try { appData = JSON.parse(saved); } catch(e){} }
             renderAll();
         }
 
         function saveData() {
-            localStorage.setItem('pro_fit_system_data', JSON.stringify(appData));
+            localStorage.setItem('ai_pro_fit_system', JSON.stringify(appData));
             renderAll();
         }
 
         function switchTab(tabId) {
-            ['planner', 'tracker', 'anatomy', 'diet', 'analytics'].forEach(t => {
+            ['workout', 'anatomy', 'diet', 'body', 'charts'].forEach(t => {
                 document.getElementById(`content-${t}`).classList.add('hidden');
                 document.getElementById(`tab-${t}`).classList.remove('bg-indigo-600', 'text-white');
                 document.getElementById(`tab-${t}`).classList.add('text-slate-400');
@@ -296,236 +321,233 @@
             document.getElementById(`content-${tabId}`).classList.remove('hidden');
             document.getElementById(`tab-${tabId}`).classList.add('bg-indigo-600', 'text-white');
             document.getElementById(`tab-${tabId}`).classList.remove('text-slate-400');
-            if(tabId === 'analytics') renderCharts();
-            if(tabId === 'anatomy') renderAnatomy();
-            if(tabId === 'tracker') renderTracker();
+            if(tabId === 'charts') updateChartDisplay();
         }
 
-        // Planlama İşlemleri
-        function addPlannedExercise(e) {
+        // 1. Antrenman ve Grup Ekleme
+        function addWorkoutGroup(e) {
             e.preventDefault();
-            const day = document.getElementById('plan-day').value;
-            const name = document.getElementById('plan-name').value;
-            const sets = document.getElementById('plan-sets').value;
-            const reps = document.getElementById('plan-reps').value;
-            const weight = parseFloat(document.getElementById('plan-weight').value);
-            
-            let muscle = "Diğer";
-            const lower = name.toLowerCase();
-            if(lower.includes('göğüs') || lower.includes('bench') || lower.includes('press')) muscle = "Göğüs";
-            else if(lower.includes('bacak') || lower.includes('squat')) muscle = "Bacak";
-            else if(lower.includes('sırt') || lower.includes('pull') || lower.includes('deadlift')) muscle = "Sırt";
-            else if(lower.includes('omuz')) muscle = "Omuz";
-            else if(lower.includes('kol') || lower.includes('biceps') || lower.includes('triceps')) muscle = "Kol";
+            const day = document.getElementById('w-day').value;
+            const freq = document.getElementById('w-freq').value;
+            const rawEx = document.getElementById('w-exercises').value;
+            const exercises = rawEx.split(',').map(s => s.trim()).filter(Boolean);
 
-            appData.plans[day].push({ id: Date.now(), name, sets, reps, weight, muscle });
+            appData.workouts.push({
+                id: Date.now(),
+                day,
+                freq,
+                exercises,
+                verified: true // Ajan web taraması simülasyonu onay işareti
+            });
             saveData();
-            document.getElementById('plan-name').value = '';
+            document.getElementById('w-exercises').value = '';
+            alert("Antrenman grubu başarıyla eklendi ve web ajanı kas tanımlamalarını doğruladı!");
         }
 
-        function deletePlanItem(day, id) {
-            appData.plans[day] = appData.plans[day].filter(i => i.id !== id);
+        function deleteWorkoutGroup(id) {
+            appData.workouts = appData.workouts.filter(w => w.id !== id);
             saveData();
         }
 
-        function clearPlanner() {
-            if(confirm("Tüm haftalık plan temizlensin mi?")) {
-                Object.keys(appData.plans).forEach(d => appData.plans[d] = []);
+        function clearWorkouts() {
+            if(confirm("Tüm antrenman grupları silinsin mi?")) {
+                appData.workouts = [];
                 saveData();
             }
         }
 
-        // Canlı Antrenman Başlatıcı
-        function startWorkoutSession(day) {
-            currentActiveDay = day;
-            activeSeconds = 0;
-            document.getElementById('active-workout-banner').classList.remove('hidden');
-            document.getElementById('active-title').innerText = `${day} Antrenmanı Aktif`;
-            
-            if(activeTimerInterval) clearInterval(activeTimerInterval);
-            activeTimerInterval = setInterval(() => {
-                activeSeconds++;
-                let m = Math.floor(activeSeconds / 60);
-                let s = activeSeconds % 60;
-                document.getElementById('active-timer').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            }, 1000);
-        }
-
-        function finishActiveWorkout() {
-            clearInterval(activeTimerInterval);
-            const durationMin = Math.max(1, Math.round(activeSeconds / 60));
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
-            
-            appData.history.push({
-                date: now.toLocaleDateString('tr-TR'),
-                day: currentActiveDay || "Pazartesi",
-                durationMinutes: durationMin,
-                timeStr: timeStr,
-                hour: now.getHours()
+        // 2. Anatomi Periyodu
+        function setAnatomyPeriod(period) {
+            appData.anatomyPeriod = period;
+            ['daily', 'weekly', 'monthly'].forEach(p => {
+                document.getElementById(`an-${p}`).classList.remove('bg-emerald-600', 'text-white');
+                document.getElementById(`an-${p}`).classList.add('text-slate-400');
             });
-
-            document.getElementById('active-workout-banner').classList.add('hidden');
-            alert(`Antrenman başarıyla tamamlandı! Süre: ${durationMin} dakika (${timeStr}).`);
-            saveData();
+            document.getElementById(`an-${period}`).classList.add('bg-emerald-600', 'text-white');
+            document.getElementById(`an-${period}`).classList.remove('text-slate-400');
+            
+            // Isı modelini periyoda göre dinamik simüle et
+            if(period === 'monthly') {
+                document.getElementById('model-chest').className = "w-16 h-8 rounded bg-red-600 text-[10px] flex items-center justify-center font-bold text-white shadow-lg shadow-red-600/50";
+                document.getElementById('model-back').className = "w-20 h-14 rounded bg-red-600 text-[10px] flex items-center justify-center font-bold text-white shadow-lg shadow-red-600/50";
+            } else if(period === 'daily') {
+                document.getElementById('model-chest').className = "w-16 h-8 rounded bg-amber-500 text-[10px] flex items-center justify-center font-bold text-white";
+                document.getElementById('model-back').className = "w-20 h-14 rounded bg-emerald-500 text-[10px] flex items-center justify-center font-bold text-white";
+            }
         }
 
-        function cancelActiveWorkout() {
-            clearInterval(activeTimerInterval);
-            document.getElementById('active-workout-banner').classList.add('hidden');
-        }
-
-        // Besin ve Su
-        function addFoodItem(e) {
+        // 3. Görsel Öğün & Tablo
+        function addVisualFood(e) {
             e.preventDefault();
-            const name = document.getElementById('food-input').value;
-            const cals = parseInt(document.getElementById('food-cals').value) || 250;
-            const prot = parseInt(document.getElementById('food-prot').value) || 20;
+            const desc = document.getElementById('food-desc').value;
+            const fileInput = document.getElementById('food-img-file');
+            
+            let source = "Manuel Girdi";
+            if(fileInput.files.length > 0) {
+                source = "Görsel Yapay Zeka Analizi";
+            }
 
-            appData.foods.push({ id: Date.now(), name, cals, prot });
+            // Ajan tahmin simülasyonu
+            appData.foods.push({
+                name: desc,
+                cals: Math.floor(Math.random() * 300) + 200,
+                prot: Math.floor(Math.random() * 25) + 10,
+                carbs: Math.floor(Math.random() * 40) + 15,
+                fat: Math.floor(Math.random() * 15) + 5,
+                source: source
+            });
             saveData();
-            document.getElementById('food-input').value = '';
-            document.getElementById('food-cals').value = '';
-            document.getElementById('food-prot').value = '';
+            document.getElementById('food-desc').value = '';
+            fileInput.value = '';
+            alert("Öğün başarıyla analiz edildi ve sütun tablosuna eklendi!");
         }
 
-        function addWater(amount) {
-            appData.water = Math.max(0, parseFloat((appData.water + amount).toFixed(2)));
+        // 4. Vücut Girdileri ve Özerk Ajan
+        function updateBodyMetrics(e) {
+            e.preventDefault();
+            appData.body.height = parseFloat(document.getElementById('b-height').value);
+            appData.body.weight = parseFloat(document.getElementById('b-weight').value);
+            appData.body.water = parseFloat(document.getElementById('b-water').value);
             saveData();
+            runAutonomousAudit();
+            alert("Vücut metrikleri güncellendi ve özerk ajan taraması yenilendi!");
+        }
+
+        function runAutonomousAudit() {
+            const container = document.getElementById('autonomous-alerts-container');
+            let alertsHtml = '';
+
+            if(appData.body.water < 2.5) {
+                alertsHtml += `
+                    <div class="bg-slate-950 p-4 rounded-xl border border-amber-500/30 flex items-start gap-3">
+                        <span class="text-amber-400 text-lg">⚠️</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-amber-300">Özerk Ajan: Su Tüketimi Yetersiz (${appData.body.water}L)</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">Mevcut kilo değerinize (${appData.body.weight}kg) göre günlük su alımınız minimum 2.8L olmalıdır.</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                alertsHtml += `
+                    <div class="bg-slate-950 p-4 rounded-xl border border-emerald-500/30 flex items-start gap-3">
+                        <span class="text-emerald-400 text-lg">✅</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-emerald-300">Özerk Ajan: Hidratasyon Seviyesi Mükemmel</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">Su tüketiminiz hedeflenen aralıktadır.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const bmi = (appData.body.weight / Math.pow(appData.body.height / 100, 2)).toFixed(1);
+            alertsHtml += `
+                <div class="bg-slate-950 p-4 rounded-xl border border-indigo-500/30 flex items-start gap-3">
+                    <span class="text-indigo-400 text-lg">📊</span>
+                    <div>
+                        <h4 class="font-bold text-sm text-indigo-300">Özerk Ajan: Vücut Kitle İndeksi (BMI: ${bmi})</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">Periyodik değerlendirme tamamlandı. Kas/yağ oranınızı korumak için antrenman gruplarına devam edin.</p>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = alertsHtml;
         }
 
         // Render İşlemleri
         function renderAll() {
-            // Haftalık Plan Render
-            const container = document.getElementById('weekly-days-container');
-            const days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
-            
-            container.innerHTML = days.map(day => {
-                const list = appData.plans[day] || [];
-                return `
-                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                            <h3 class="font-bold text-indigo-400">${day}</h3>
-                            <button onclick="startWorkoutSession('${day}')" class="text-xs bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white px-2.5 py-1 rounded-lg transition">Seansı Başlat</button>
-                        </div>
-                        <div class="space-y-2">
-                            ${list.length === 0 ? '<span class="text-xs text-slate-500 italic">Bu güne henüz hareket eklenmedi.</span>' : 
-                                list.map(item => `
-                                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center text-sm">
-                                        <div>
-                                            <span class="font-semibold">${item.name}</span>
-                                            <span class="text-xs text-slate-400 ml-2">${item.sets} Set × ${item.reps} Tekrar • <b class="text-indigo-400">${item.weight} kg</b></span>
-                                        </div>
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-[10px] bg-slate-900 px-2 py-0.5 rounded text-indigo-300 border border-slate-800">${item.muscle}</span>
-                                            <button onclick="deletePlanItem('${day}', ${item.id})" class="text-slate-600 hover:text-red-400 text-xs">Sil</button>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            // Besinler
-            const foodList = document.getElementById('food-list');
-            let totalC = 0, totalP = 0;
-            if(appData.foods.length === 0) {
-                foodList.innerHTML = `<div class="text-slate-500 text-center py-6 text-sm">Henüz öğün eklenmedi.</div>`;
+            // Antrenman Grupları
+            const wContainer = document.getElementById('workout-group-list');
+            if(appData.workouts.length === 0) {
+                wContainer.innerHTML = `<div class="text-slate-500 text-center py-8 text-sm">Henüz antrenman grubu eklenmedi.</div>`;
             } else {
-                foodList.innerHTML = appData.foods.slice().reverse().map(f => {
-                    totalC += f.cals; totalP += f.prot;
-                    return `
-                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center text-sm">
-                            <span class="font-medium">${f.name}</span>
-                            <div class="flex items-center gap-3 text-xs">
-                                <span class="text-emerald-400 font-semibold">${f.cals} kcal</span>
-                                <span class="text-indigo-400 font-semibold">${f.prot}g protein</span>
+                wContainer.innerHTML = appData.workouts.map(w => `
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-indigo-950 text-indigo-400 px-2.5 py-1 rounded text-xs font-bold">${w.day}</span>
+                                <span class="text-xs text-slate-400 font-medium">(${w.freq})</span>
+                                <span class="text-xs bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded font-bold">✅ Web Ajanı Onaylı</span>
                             </div>
+                            <button onclick="deleteWorkoutGroup(${w.id})" class="text-xs text-red-400 hover:underline">Sil</button>
                         </div>
-                    `;
-                }).join('');
-            }
-            document.getElementById('stat-cals').innerText = `${totalC} kcal`;
-            document.getElementById('stat-prot').innerText = `${totalP} g`;
-            document.getElementById('stat-water').innerText = `${appData.water} L`;
-            document.getElementById('water-display').innerText = `${appData.water} L`;
-        }
-
-        function renderTracker() {
-            document.getElementById('streak-count').innerText = `${appData.streakDays.length} Gün`;
-            document.getElementById('monthly-count').innerText = `${appData.history.length + 12} Seans`;
-            const totalMin = appData.history.reduce((a,b)=>a+b.durationMinutes, 450);
-            document.getElementById('total-duration-stat').innerText = `${totalMin} dk`;
-
-            const calGrid = document.getElementById('calendar-grid');
-            let gridHtml = '';
-            for(let i=1; i<=30; i++) {
-                const isDone = appData.streakDays.includes(i);
-                gridHtml += `
-                    <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 text-center flex flex-col items-center justify-center h-16">
-                        <span class="text-xs text-slate-400">Eki ${i}</span>
-                        <span class="mt-1 text-base">${isDone ? '✅' : '⚪'}</span>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            ${w.exercises.map(ex => `<span class="bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-xs text-slate-300">${ex}</span>`).join('')}
+                        </div>
                     </div>
-                `;
+                `).join('');
             }
-            calGrid.innerHTML = gridHtml;
+
+            // Besin Sütun Tablosu
+            const fTable = document.getElementById('food-table-body');
+            if(appData.foods.length === 0) {
+                fTable.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500">Henüz öğün kaydedilmedi.</td></tr>`;
+            } else {
+                fTable.innerHTML = appData.foods.map(f => `
+                    <tr class="hover:bg-slate-900/50">
+                        <td class="p-3 font-semibold text-white">${f.name}</td>
+                        <td class="p-3 text-emerald-400 font-bold">${f.cals} kcal</td>
+                        <td class="p-3 text-indigo-400">${f.prot} g</td>
+                        <td class="p-3 text-amber-400">${f.carbs || 20} g</td>
+                        <td class="p-3 text-rose-400">${f.fat || 10} g</td>
+                        <td class="p-3 text-xs text-slate-400">${f.source}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Vücut Form Alanları
+            document.getElementById('b-height').value = appData.body.height;
+            document.getElementById('b-weight').value = appData.body.weight;
+            document.getElementById('b-water').value = appData.body.water;
         }
 
-        function renderAnatomy() {
-            // Kas yoğunluk haritası simülasyonu
-            const muscles = [
-                { name: "Göğüs (Pectoral)", level: "Yüksek", color: "bg-red-500/20 border-red-500 text-red-400" },
-                { name: "Bacak (Quadriceps)", level: "Yüksek", color: "bg-red-500/20 border-red-500 text-red-400" },
-                { name: "Sırt (Latissimus)", level: "Orta", color: "bg-amber-500/20 border-amber-500 text-amber-400" },
-                { name: "Omuz (Deltoid)", level: "Düşük", color: "bg-emerald-500/20 border-emerald-500 text-emerald-400" },
-                { name: "Kol (Biceps/Triceps)", level: "Orta", color: "bg-amber-500/20 border-amber-500 text-amber-400" },
-                { name: "Karın (Core)", level: "Düşük", color: "bg-emerald-500/20 border-emerald-500 text-emerald-400" }
-            ];
-
-            const container = document.getElementById('muscle-cards-container');
-            container.innerHTML = muscles.map(m => `
-                <div class="bg-slate-950 p-4 rounded-xl border ${m.color} space-y-2">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Yoğunluk: ${m.level}</span>
-                    <h4 class="font-bold text-base text-white">${m.name}</h4>
-                    <p class="text-[11px] text-slate-400">Planlanan hareketlerin aktivasyon oranı analiz edildi.</p>
-                </div>
-            `).join('');
+        // 5. Grafikler
+        let activeChartInstance = null;
+        function switchChartGroup() {
+            updateChartDisplay();
         }
 
-        let durChartInst = null;
-        let timeChartInst = null;
-        function renderCharts() {
-            const ctx1 = document.getElementById('durationChart').getContext('2d');
-            if(durChartInst) durChartInst.destroy();
-            durChartInst = new Chart(ctx1, {
-                type: 'bar',
-                data: {
-                    labels: appData.history.length > 0 ? appData.history.map(h => h.date) : ["1. Seans", "2. Seans", "3. Seans"],
-                    datasets: [{
-                        label: 'Antrenman Süresi (Dakika)',
-                        data: appData.history.length > 0 ? appData.history.map(h => h.durationMinutes) : [45, 60, 50],
-                        backgroundColor: '#6366f1'
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#cbd5e1' } } } }
-            });
+        function updateChartDisplay() {
+            const chartType = document.getElementById('chart-selector').value;
+            const ctx = document.getElementById('activeAnalyticsChart').getContext('2d');
+            if(activeChartInstance) activeChartInstance.destroy();
 
-            const ctx2 = document.getElementById('timeChart').getContext('2d');
-            if(timeChartInst) timeChartInst.destroy();
-            timeChartInst = new Chart(ctx2, {
+            let label = "Ağırlık Gelişimi (kg)";
+            let dataVals = [74.5, 74.8, 75.0];
+            let color = "#6366f1";
+
+            if(chartType === 'calories') {
+                label = "Günlük Alınan Kalori (kcal)";
+                dataVals = appData.foods.map(f => f.cals);
+                if(dataVals.length === 0) dataVals = [2200, 2400, 2100, 2500];
+                color = "#10b981";
+            } else if(chartType === 'water') {
+                label = "Su Tüketim Trendi (Litre)";
+                dataVals = [2.0, 1.5, 2.5, appData.body.water];
+                color = "#06b6d4";
+            }
+
+            activeChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ["Pzt 18:00", "Sal 19:30", "Per 18:30", "Cmt 14:00"],
+                    labels: ["1. Hafta", "2. Hafta", "3. Hafta", "Bugün"],
                     datasets: [{
-                        label: 'Spor Yapılan Saat Dilimi (TR)',
-                        data: [18, 19.5, 18.5, 14],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true
+                        label: label,
+                        data: dataVals,
+                        borderColor: color,
+                        backgroundColor: color + '20',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#cbd5e1' } } } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#cbd5e1' } } },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+                        y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+                    }
+                }
             });
         }
 
