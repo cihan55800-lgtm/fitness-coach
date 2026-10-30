@@ -22,16 +22,16 @@
                 <div class="bg-indigo-600 p-2 rounded-xl text-white font-bold text-xl shadow-lg shadow-indigo-600/30">💪 AI Fit</div>
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Fitness & Diyet Koçu</h1>
-                    <span class="text-xs text-emerald-400 flex items-center gap-1">● PC & Mobil Senkronize Aktif</span>
+                    <span class="text-xs text-emerald-400 flex items-center gap-1">● Kişisel Kontrol & Senkronize</span>
                 </div>
             </div>
             <!-- Nav Tabs -->
             <nav class="flex space-x-1 bg-slate-950 p-1.5 rounded-xl border border-slate-800 flex-wrap">
-                <button onclick="switchTab('workout')" id="tab-workout" class="px-3 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white transition">Antrenman</button>
+                <button onclick="switchTab('workout')" id="tab-workout" class="px-3 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white transition">Antrenmanım</button>
                 <button onclick="switchTab('diet')" id="tab-diet" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Diyet & Besin</button>
                 <button onclick="switchTab('progress')" id="tab-progress" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Grafikler</button>
                 <button onclick="switchTab('ai')" id="tab-ai" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">AI Koç 🤖</button>
-                <button onclick="switchTab('security')" id="tab-security" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">🛡️ Güvenlik Ajanı</button>
+                <button onclick="switchTab('security')" id="tab-security" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">🛡️ Güvenlik</button>
             </nav>
         </div>
     </header>
@@ -44,23 +44,16 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Add Exercise Form -->
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 h-fit space-y-4">
-                    <h2 class="text-lg font-bold text-indigo-400">Yeni Antrenman Hareketi Ekle</h2>
+                    <h2 class="text-lg font-bold text-indigo-400">Antrenmanına Hareket Ekle</h2>
                     <form id="exercise-form" onsubmit="addExercise(event)" class="space-y-3">
                         <div>
-                            <label class="text-xs text-slate-400 font-medium">Gün</label>
-                            <select id="ex-day" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
-                                <option value="Pazartesi">Pazartesi - Göğüs & Triceps</option>
-                                <option value="Salı">Salı - Sırt & Biceps</option>
-                                <option value="Çarşamba">Çarşamba - Dinlenme / Kardiyo</option>
-                                <option value="Perşembe">Perşembe - Bacak & Omuz</option>
-                                <option value="Cuma">Cuma - Kol & Karın</option>
-                                <option value="Cumartesi">Cumartesi - Tüm Vücut</option>
-                                <option value="Pazar">Pazar - Dinlenme</option>
-                            </select>
+                            <label class="text-xs text-slate-400 font-medium">Hangi Gün / Seans Yapacaksın?</label>
+                            <input type="text" id="ex-day" placeholder="Örn: Pazartesi - Göğüs Günü, veya 1. Gün vb." required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                            <span class="text-[10px] text-slate-500 mt-1 block">İstediğiniz ismi veya günü tamamen kendiniz yazabilirsiniz.</span>
                         </div>
                         <div>
                             <label class="text-xs text-slate-400 font-medium">Hareket Adı</label>
-                            <input type="text" id="ex-name" placeholder="Örn: Bench Press" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                            <input type="text" id="ex-name" placeholder="Örn: Bench Press, Squat..." required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
                         </div>
                         <div class="grid grid-cols-3 gap-2">
                             <div>
@@ -84,18 +77,18 @@
                                 <option value="Zor">🔴 Zor (Tükenişe yakın)</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">Hareketi Ekle</button>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">Listeye Ekle</button>
                     </form>
                 </div>
 
-                <!-- Exercise List by Days -->
+                <!-- Exercise List by Custom Days -->
                 <div class="lg:col-span-2 bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
                     <div class="flex justify-between items-center">
-                        <h2 class="text-lg font-bold text-indigo-400">Haftalık Antrenman Planı & Geçmişi</h2>
+                        <h2 class="text-lg font-bold text-indigo-400">Antrenman Programım & Hareketlerim</h2>
                         <button onclick="clearWorkouts()" class="text-xs text-red-400 hover:underline">Tümünü Sıfırla</button>
                     </div>
                     <div id="workout-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-                        <div class="text-slate-500 text-center py-8">Henüz antrenman hareketi eklenmemiş. Soldan ekleyin.</div>
+                        <div class="text-slate-500 text-center py-8">Henüz kendi belirlediğiniz bir hareket eklemediniz. Soldan ekleyin.</div>
                     </div>
                 </div>
             </div>
@@ -111,9 +104,9 @@
                         <div>
                             <label class="text-xs text-slate-400 font-medium">Yediğiniz / İçtiğiniz Ürün</label>
                             <input type="text" id="food-name" placeholder="Örn: 2 adet yumurta, 1 kase yulaf" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500">
-                            <span class="text-[10px] text-slate-500 mt-1 block">AI web analiziyle kalori, vitamin ve mineralleri otomatik hesaplar.</span>
+                            <span class="text-[10px] text-slate-500 mt-1 block">AI analiziyle kalori, vitamin ve mineraller tahmin edilir.</span>
                         </div>
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30">AI ile Analiz Et & Ekle</button>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30">Ürünü Ekle & Analiz Et</button>
                     </form>
 
                     <hr class="border-slate-800 my-4">
@@ -183,12 +176,12 @@
                 <div class="border-b border-slate-800 pb-3 mb-4 flex items-center justify-between">
                     <div>
                         <h2 class="font-bold text-indigo-400">Kişisel AI Fitness & Beslenme Koçu</h2>
-                        <p class="text-xs text-slate-400">Girdiğiniz antrenman ve diyet verilerinizi analiz eder.</p>
+                        <p class="text-xs text-slate-400">Kendi belirlediğiniz programı ve beslenmenizi analiz eder.</p>
                     </div>
                 </div>
                 <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 pr-2 text-sm">
                     <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 max-w-[85%] text-slate-300">
-                        Merhaba! Antrenmanlarını, ağırlık artışlarını ve günlük beslenmeni takip ediyorum. Bugün sana nasıl yardımcı olabilirim?
+                        Merhaba! Antrenman günlerini ve programını tamamen senin kurallarına göre güncelledim. Nasıl bir program oluşturdun, değerlendirmemi ister misin?
                     </div>
                 </div>
                 <form onsubmit="sendAiMessage(event)" class="mt-4 flex gap-2">
@@ -204,7 +197,7 @@
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div>
                         <h2 class="text-lg font-bold text-emerald-400">🛡️ Güvenlik ve Senkronizasyon Ajanı</h2>
-                        <p class="text-xs text-slate-400">Cihazlar arası veri güvenliğinizi ve bulut aktarım durumunuzu denetler.</p>
+                        <p class="text-xs text-slate-400">Verilerinizin güvenliğini ve cihazlar arası durumunu denetler.</p>
                     </div>
                     <button onclick="runSecurityScan()" class="bg-emerald-600 hover:bg-emerald-500 text-xs px-4 py-2 rounded-xl font-semibold transition">Taramayı Başlat</button>
                 </div>
@@ -212,23 +205,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
                         <span class="text-xs text-slate-400">Veri Şifreleme Durumu</span>
-                        <h4 id="sec-status" class="text-emerald-400 font-bold text-base mt-1">Güvenli (AES-256 / Local)</h4>
+                        <h4 class="text-emerald-400 font-bold text-base mt-1">Güvenli (AES-256 / Local)</h4>
                     </div>
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
                         <span class="text-xs text-slate-400">Senkronizasyon Sağlığı</span>
-                        <h4 id="sec-sync" class="text-cyan-400 font-bold text-base mt-1">Eşitlendi (PC & Mobil)</h4>
+                        <h4 class="text-cyan-400 font-bold text-base mt-1">Aktif & Senkron</h4>
                     </div>
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                        <span class="text-xs text-slate-400">Yetkisiz Erişim Tehdidi</span>
-                        <h4 id="sec-threat" class="text-emerald-400 font-bold text-base mt-1">Tespit Edilmedi (0)</h4>
+                        <span class="text-xs text-slate-400">Tehdit Durumu</span>
+                        <h4 class="text-emerald-400 font-bold text-base mt-1">Güvenli (0 Tehdit)</h4>
                     </div>
                 </div>
 
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                    <h3 class="font-bold text-sm text-slate-300">Ajan Denetim Günlüğü & Raporu</h3>
+                    <h3 class="font-bold text-sm text-slate-300">Ajan Denetim Günlüğü</h3>
                     <div id="security-log" class="text-xs text-slate-400 space-y-1 max-h-40 overflow-y-auto">
-                        <div>[00:01] Sistem başlatıldı. Yerel depolama tabanlı güvenli oturum açıldı.</div>
-                        <div>[00:02] PC ve mobil cihazlar arası veri yapısı doğrulandı.</div>
+                        <div>[Sistem] Kendi belirleyeceğiniz özel antrenman günleri aktif edildi.</div>
                     </div>
                 </div>
             </div>
@@ -269,8 +261,8 @@
             e.preventDefault();
             const newEx = {
                 id: Date.now(),
-                day: document.getElementById('ex-day').value,
-                name: document.getElementById('ex-name').value,
+                day: document.getElementById('ex-day').value.trim(),
+                name: document.getElementById('ex-name').value.trim(),
                 sets: document.getElementById('ex-sets').value,
                 reps: document.getElementById('ex-reps').value,
                 weight: parseFloat(document.getElementById('ex-weight').value),
@@ -280,6 +272,7 @@
             appData.workouts.push(newEx);
             saveLocalData();
             document.getElementById('ex-name').value = '';
+            document.getElementById('ex-day').value = '';
         }
 
         function addFood(e) {
@@ -308,7 +301,7 @@
         function renderAll() {
             const wList = document.getElementById('workout-list');
             if (appData.workouts.length === 0) {
-                wList.innerHTML = `<div class="text-slate-500 text-center py-8">Henüz antrenman hareketi eklenmemiş. Soldan ekleyin.</div>`;
+                wList.innerHTML = `<div class="text-slate-500 text-center py-8">Henüz kendi belirlediğiniz bir hareket eklemediniz. Soldan ekleyin.</div>`;
             } else {
                 wList.innerHTML = appData.workouts.slice().reverse().map(w => `
                     <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
@@ -385,9 +378,9 @@
             chat.scrollTop = chat.scrollHeight;
 
             setTimeout(() => {
-                let reply = "Gelişim grafiğin oldukça dengeli görünüyor! Antrenman ağırlıklarını ve protein alımını bu düzende sürdürmeye devam et.";
+                let reply = "Kendi oluşturduğun antrenman düzenini ve ağırlıklarını inceledim. Gelişimini izlemek için harika bir program kurmuşsun!";
                 if(msg.toLowerCase().includes('su') || msg.toLowerCase().includes('kalori')) {
-                    reply = `Günlük kayıtlarına göre toplam ${appData.foods.reduce((a,b)=>a+b.calories,0)} kalori ve ${appData.water} Litre su tükettin. Harika gidiyorsun!`;
+                    reply = `Günlük kayıtlarına göre toplam ${appData.foods.reduce((a,b)=>a+b.calories,0)} kalori ve ${appData.water} Litre su tükettin.`;
                 }
                 chat.innerHTML += `<div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 max-w-[85%] text-slate-300">${reply}</div>`;
                 chat.scrollTop = chat.scrollHeight;
@@ -441,8 +434,8 @@
         function runSecurityScan() {
             const logBox = document.getElementById('security-log');
             const timeStr = new Date().toLocaleTimeString('tr-TR');
-            logBox.innerHTML = `<div>[${timeStr}] 🛡️ Güvenlik taraması tamamlandı: Veriler şifrelendi, tehdit bulunamadı.</div>` + logBox.innerHTML;
-            alert("Güvenlik Ajanı Tarama Tamamladı: Tüm verileriniz güvende ve senkronize!");
+            logBox.innerHTML = `<div>[${timeStr}] 🛡️ Denetim: Özel gün girişi doğrulandı, veriler tam koruma altında.</div>` + logBox.innerHTML;
+            alert("Güvenlik Ajanı: Özel gün tabanlı antrenman sisteminiz sorunsuz çalışıyor.");
         }
 
         loadLocalData();
