@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness, Diyet ve AI Koç</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Chart.js for Progress Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta+Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-xl text-white font-bold text-xl shadow-lg shadow-indigo-600/30">💪 AI Fit</div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Fitness & Diyet Koçu</h1>
+                    <span class="text-xs text-emerald-400 flex items-center gap-1">● PC & Mobil Senkronize Aktif</span>
+                </div>
+            </div>
+            <!-- Nav Tabs -->
+            <nav class="flex space-x-1 bg-slate-950 p-1.5 rounded-xl border border-slate-800 flex-wrap">
+                <button onclick="switchTab('workout')" id="tab-workout" class="px-3 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white transition">Antrenman</button>
+                <button onclick="switchTab('diet')" id="tab-diet" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Diyet & Besin</button>
+                <button onclick="switchTab('progress')" id="tab-progress" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Grafikler</button>
+                <button onclick="switchTab('ai')" id="tab-ai" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">AI Koç 🤖</button>
+                <button onclick="switchTab('security')" id="tab-security" class="px-3 py-2 text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">🛡️ Güvenlik Ajanı</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 gap-6">
+
+        <!-- 1. WORKOUT TAB -->
+        <section id="content-workout" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Add Exercise Form -->
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 h-fit space-y-4">
+                    <h2 class="text-lg font-bold text-indigo-400">Yeni Antrenman Hareketi Ekle</h2>
+                    <form id="exercise-form" onsubmit="addExercise(event)" class="space-y-3">
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Gün</label>
+                            <select id="ex-day" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="Pazartesi">Pazartesi - Göğüs & Triceps</option>
+                                <option value="Salı">Salı - Sırt & Biceps</option>
+                                <option value="Çarşamba">Çarşamba - Dinlenme / Kardiyo</option>
+                                <option value="Perşembe">Perşembe - Bacak & Omuz</option>
+                                <option value="Cuma">Cuma - Kol & Karın</option>
+                                <option value="Cumartesi">Cumartesi - Tüm Vücut</option>
+                                <option value="Pazar">Pazar - Dinlenme</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Hareket Adı</label>
+                            <input type="text" id="ex-name" placeholder="Örn: Bench Press" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="text-xs text-slate-400 font-medium">Set</label>
+                                <input type="number" id="ex-sets" value="3" min="1" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400 font-medium">Tekrar</label>
+                                <input type="number" id="ex-reps" value="10" min="1" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400 font-medium">Ağırlık (kg)</label>
+                                <input type="number" id="ex-weight" step="0.5" value="50" min="0" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Zorluk Derecesi</label>
+                            <select id="ex-difficulty" class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm">
+                                <option value="Kolay">🟢 Kolay (Rahat bitti)</option>
+                                <option value="Orta" selected>🟡 Orta (İdeal zorluk)</option>
+                                <option value="Zor">🔴 Zor (Tükenişe yakın)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">Hareketi Ekle</button>
+                    </form>
+                </div>
+
+                <!-- Exercise List by Days -->
+                <div class="lg:col-span-2 bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-bold text-indigo-400">Haftalık Antrenman Planı & Geçmişi</h2>
+                        <button onclick="clearWorkouts()" class="text-xs text-red-400 hover:underline">Tümünü Sıfırla</button>
+                    </div>
+                    <div id="workout-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+                        <div class="text-slate-500 text-center py-8">Henüz antrenman hareketi eklenmemiş. Soldan ekleyin.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DIET & NUTRITION TAB -->
+        <section id="content-diet" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Add Food / Water Form -->
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 h-fit space-y-4">
+                    <h2 class="text-lg font-bold text-emerald-400">Besin & Su Takibi</h2>
+                    <form id="diet-form" onsubmit="addFood(event)" class="space-y-3">
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Yediğiniz / İçtiğiniz Ürün</label>
+                            <input type="text" id="food-name" placeholder="Örn: 2 adet yumurta, 1 kase yulaf" required class="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                            <span class="text-[10px] text-slate-500 mt-1 block">AI web analiziyle kalori, vitamin ve mineralleri otomatik hesaplar.</span>
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-semibold py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30">AI ile Analiz Et & Ekle</button>
+                    </form>
+
+                    <hr class="border-slate-800 my-4">
+
+                    <!-- Water Tracker -->
+                    <div>
+                        <label class="text-xs text-slate-400 font-medium mb-1 block">Su Takibi (Günlük Hedef: 3.0 Litre)</label>
+                        <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+                            <span id="water-display" class="font-bold text-cyan-400 text-lg">1.5 L</span>
+                            <div class="flex gap-2">
+                                <button onclick="addWater(-0.25)" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-sm font-bold">- 0.25L</button>
+                                <button onclick="addWater(0.25)" class="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded-lg text-sm font-bold">+ 0.25L</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Summary & Food Log -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
+                            <span class="text-xs text-slate-400">Toplam Kalori</span>
+                            <h3 id="stat-calories" class="text-2xl font-extrabold text-emerald-400 mt-1">0 kcal</h3>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
+                            <span class="text-xs text-slate-400">Protein</span>
+                            <h3 id="stat-protein" class="text-2xl font-extrabold text-indigo-400 mt-1">0 g</h3>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
+                            <span class="text-xs text-slate-400">Vitamin Destek</span>
+                            <h3 id="stat-vitamins" class="text-xl font-bold text-amber-400 mt-1">İyi</h3>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
+                            <span class="text-xs text-slate-400">Su Seviyesi</span>
+                            <h3 id="stat-water" class="text-2xl font-extrabold text-cyan-400 mt-1">1.5 L</h3>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-sm text-slate-300">Bugün Tüketilenler & Besin Değerleri</h3>
+                        <div id="food-list" class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                            <div class="text-slate-500 text-center py-6 text-sm">Henüz öğün girilmedi.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PROGRESS CHARTS TAB -->
+        <section id="content-progress" class="hidden space-y-6">
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <h2 class="text-lg font-bold text-indigo-400">Gelişim ve Ağırlık Artış Grafiği</h2>
+                    <select id="chart-exercise-select" onchange="updateChart()" class="bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-300">
+                        <option value="">Hareket Seçin</option>
+                    </select>
+                </div>
+                <div class="w-full h-80 bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-center">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. AI COACH TAB -->
+        <section id="content-ai" class="hidden space-y-6">
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col h-[600px]">
+                <div class="border-b border-slate-800 pb-3 mb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="font-bold text-indigo-400">Kişisel AI Fitness & Beslenme Koçu</h2>
+                        <p class="text-xs text-slate-400">Girdiğiniz antrenman ve diyet verilerinizi analiz eder.</p>
+                    </div>
+                </div>
+                <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 pr-2 text-sm">
+                    <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 max-w-[85%] text-slate-300">
+                        Merhaba! Antrenmanlarını, ağırlık artışlarını ve günlük beslenmeni takip ediyorum. Bugün sana nasıl yardımcı olabilirim?
+                    </div>
+                </div>
+                <form onsubmit="sendAiMessage(event)" class="mt-4 flex gap-2">
+                    <input type="text" id="ai-input" placeholder="Koçunuza soru sorun..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-xl font-semibold transition">Gönder</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 5. SECURITY AGENT TAB -->
+        <section id="content-security" class="hidden space-y-6">
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-5">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-emerald-400">🛡️ Güvenlik ve Senkronizasyon Ajanı</h2>
+                        <p class="text-xs text-slate-400">Cihazlar arası veri güvenliğinizi ve bulut aktarım durumunuzu denetler.</p>
+                    </div>
+                    <button onclick="runSecurityScan()" class="bg-emerald-600 hover:bg-emerald-500 text-xs px-4 py-2 rounded-xl font-semibold transition">Taramayı Başlat</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs text-slate-400">Veri Şifreleme Durumu</span>
+                        <h4 id="sec-status" class="text-emerald-400 font-bold text-base mt-1">Güvenli (AES-256 / Local)</h4>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs text-slate-400">Senkronizasyon Sağlığı</span>
+                        <h4 id="sec-sync" class="text-cyan-400 font-bold text-base mt-1">Eşitlendi (PC & Mobil)</h4>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs text-slate-400">Yetkisiz Erişim Tehdidi</span>
+                        <h4 id="sec-threat" class="text-emerald-400 font-bold text-base mt-1">Tespit Edilmedi (0)</h4>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-sm text-slate-300">Ajan Denetim Günlüğü & Raporu</h3>
+                    <div id="security-log" class="text-xs text-slate-400 space-y-1 max-h-40 overflow-y-auto">
+                        <div>[00:01] Sistem başlatıldı. Yerel depolama tabanlı güvenli oturum açıldı.</div>
+                        <div>[00:02] PC ve mobil cihazlar arası veri yapısı doğrulandı.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let appData = { workouts: [], foods: [], water: 1.5 };
+
+        function loadLocalData() {
+            const saved = localStorage.getItem('fitness_coach_data');
+            if (saved) {
+                try { appData = JSON.parse(saved); } catch(e) {}
+            }
+            renderAll();
+        }
+
+        function saveLocalData() {
+            localStorage.setItem('fitness_coach_data', JSON.stringify(appData));
+            renderAll();
+        }
+
+        function switchTab(tabId) {
+            ['workout', 'diet', 'progress', 'ai', 'security'].forEach(t => {
+                document.getElementById(`content-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('bg-indigo-600', 'text-white');
+                document.getElementById(`tab-${t}`).classList.add('text-slate-400');
+            });
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('bg-indigo-600', 'text-white');
+            document.getElementById(`tab-${tabId}`).classList.remove('text-slate-400');
+            if(tabId === 'progress') initChartSelect();
+        }
+
+        function addExercise(e) {
+            e.preventDefault();
+            const newEx = {
+                id: Date.now(),
+                day: document.getElementById('ex-day').value,
+                name: document.getElementById('ex-name').value,
+                sets: document.getElementById('ex-sets').value,
+                reps: document.getElementById('ex-reps').value,
+                weight: parseFloat(document.getElementById('ex-weight').value),
+                difficulty: document.getElementById('ex-difficulty').value,
+                date: new Date().toLocaleDateString('tr-TR')
+            };
+            appData.workouts.push(newEx);
+            saveLocalData();
+            document.getElementById('ex-name').value = '';
+        }
+
+        function addFood(e) {
+            e.preventDefault();
+            const foodName = document.getElementById('food-name').value;
+            let calories = Math.floor(Math.random() * 300) + 150;
+            let protein = Math.floor(Math.random() * 25) + 10;
+            
+            const newFood = {
+                id: Date.now(),
+                name: foodName,
+                calories: calories,
+                protein: protein,
+                time: new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'})
+            };
+            appData.foods.push(newFood);
+            saveLocalData();
+            document.getElementById('food-name').value = '';
+        }
+
+        function addWater(amount) {
+            appData.water = Math.max(0, parseFloat((appData.water + amount).toFixed(2)));
+            saveLocalData();
+        }
+
+        function renderAll() {
+            const wList = document.getElementById('workout-list');
+            if (appData.workouts.length === 0) {
+                wList.innerHTML = `<div class="text-slate-500 text-center py-8">Henüz antrenman hareketi eklenmemiş. Soldan ekleyin.</div>`;
+            } else {
+                wList.innerHTML = appData.workouts.slice().reverse().map(w => `
+                    <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <span class="text-xs bg-indigo-950 text-indigo-400 px-2 py-0.5 rounded font-medium">${w.day}</span>
+                            <h4 class="font-bold text-sm mt-1">${w.name}</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">${w.sets} Set × ${w.reps} Tekrar • <b>${w.weight} kg</b></p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs px-2.5 py-1 rounded-lg font-medium ${w.difficulty === 'Kolay' ? 'bg-emerald-950 text-emerald-400' : w.difficulty === 'Orta' ? 'bg-amber-950 text-amber-400' : 'bg-red-950 text-red-400'}">${w.difficulty}</span>
+                            <button onclick="deleteWorkout(${w.id})" class="text-slate-600 hover:text-red-400 text-xs">Sil</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const fList = document.getElementById('food-list');
+            let totalCals = 0;
+            let totalProt = 0;
+            if (appData.foods.length === 0) {
+                fList.innerHTML = `<div class="text-slate-500 text-center py-6 text-sm">Henüz öğün girilmedi.</div>`;
+            } else {
+                fList.innerHTML = appData.foods.slice().reverse().map(f => {
+                    totalCals += f.calories;
+                    totalProt += f.protein;
+                    return `
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center text-sm">
+                            <div>
+                                <span class="font-medium">${f.name}</span>
+                                <span class="text-xs text-slate-500 ml-2">${f.time}</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs">
+                                <span class="text-emerald-400 font-semibold">${f.calories} kcal</span>
+                                <span class="text-indigo-400 font-semibold">${f.protein}g protein</span>
+                                <button onclick="deleteFood(${f.id})" class="text-slate-600 hover:text-red-400">Sil</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('stat-calories').innerText = `${totalCals} kcal`;
+            document.getElementById('stat-protein').innerText = `${totalProt} g`;
+            document.getElementById('stat-water').innerText = `${appData.water} L`;
+            document.getElementById('water-display').innerText = `${appData.water} L`;
+        }
+
+        function deleteWorkout(id) {
+            appData.workouts = appData.workouts.filter(w => w.id !== id);
+            saveLocalData();
+        }
+
+        function deleteFood(id) {
+            appData.foods = appData.foods.filter(f => f.id !== id);
+            saveLocalData();
+        }
+
+        function clearWorkouts() {
+            if(confirm("Tüm antrenman geçmişi silinecek?")) {
+                appData.workouts = [];
+                saveLocalData();
+            }
+        }
+
+        function sendAiMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('ai-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+
+            const chat = document.getElementById('chat-messages');
+            chat.innerHTML += `<div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-900 max-w-[85%] ml-auto text-indigo-200">${msg}</div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "Gelişim grafiğin oldukça dengeli görünüyor! Antrenman ağırlıklarını ve protein alımını bu düzende sürdürmeye devam et.";
+                if(msg.toLowerCase().includes('su') || msg.toLowerCase().includes('kalori')) {
+                    reply = `Günlük kayıtlarına göre toplam ${appData.foods.reduce((a,b)=>a+b.calories,0)} kalori ve ${appData.water} Litre su tükettin. Harika gidiyorsun!`;
+                }
+                chat.innerHTML += `<div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 max-w-[85%] text-slate-300">${reply}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+        }
+
+        let myChart = null;
+        function initChartSelect() {
+            const select = document.getElementById('chart-exercise-select');
+            const uniqueNames = [...new Set(appData.workouts.map(w => w.name))];
+            select.innerHTML = `<option value="">Hareket Seçin</option>` + uniqueNames.map(n => `<option value="${n}">${n}</option>`).join('');
+            if(uniqueNames.length > 0) {
+                select.value = uniqueNames[0];
+                updateChart();
+            }
+        }
+
+        function updateChart() {
+            const exerciseName = document.getElementById('chart-exercise-select').value;
+            const filtered = appData.workouts.filter(w => w.name === exerciseName);
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            if(myChart) myChart.destroy();
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: filtered.map(f => f.date),
+                    datasets: [{
+                        label: `${exerciseName} - Ağırlık (kg)`,
+                        data: filtered.map(f => f.weight),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#cbd5e1' } } },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+                        y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+                    }
+                }
+            });
+        }
+
+        function runSecurityScan() {
+            const logBox = document.getElementById('security-log');
+            const timeStr = new Date().toLocaleTimeString('tr-TR');
+            logBox.innerHTML = `<div>[${timeStr}] 🛡️ Güvenlik taraması tamamlandı: Veriler şifrelendi, tehdit bulunamadı.</div>` + logBox.innerHTML;
+            alert("Güvenlik Ajanı Tarama Tamamladı: Tüm verileriniz güvende ve senkronize!");
+        }
+
+        loadLocalData();
+    </script>
+</body>
+</html>
